@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Heart } from "lucide-react";
 
+const CATEGORIES = ['general', 'gratitude', 'nature', 'people', 'food', 'work', 'fun'];
 
 const ThoughtForm = ({ onPostThought }) => {
   const [text, setText] = useState('');
+  const [category, setCategory] = useState('general');
   const [isPosting, setIsPosting] = useState(false);
 
   const handleSubmit = (e) => {
@@ -11,9 +13,9 @@ const ThoughtForm = ({ onPostThought }) => {
     if (!text.trim() || text.length > 140) return;
 
     setIsPosting(true);
-    // Skicka texten uppåt till App-komponenten
-    onPostThought(text).then(() => {
-      setText(''); // Rensa formuläret efter lyckad post
+    onPostThought(text, category).then(() => {
+      setText('');
+      setCategory('general');
       setIsPosting(false);
     });
   };
@@ -32,12 +34,23 @@ const ThoughtForm = ({ onPostThought }) => {
           disabled={isPosting}
           className="w-full p-3 border border-gray-200 bg-gray-50 rounded-md focus:outline-none focus:border-pink-500 resize-none h-24 placeholder-gray-500 text-gray-900 disabled:opacity-50"
         />
-        
+
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          disabled={isPosting}
+          className="w-full p-2 border border-gray-200 bg-gray-50 rounded-md focus:outline-none focus:border-pink-500 text-gray-700 text-sm disabled:opacity-50"
+        >
+          {CATEGORIES.map((cat) => (
+            <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
+          ))}
+        </select>
+
         <div className="flex justify-between items-center pt-2">
           <span className={`text-xs ${text.length > 140 ? 'text-red-500' : 'text-gray-600'}`}>
             {text.length} / 140
           </span>
-          <button 
+          <button
             type="submit"
             disabled={!text.trim() || text.length > 140 || isPosting}
             className="bg-pink-200 hover:bg-pink-300 text-black font-bold py-3 px-6 rounded-full flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
