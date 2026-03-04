@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 
-const API_BASE = 'http://localhost:8080/api/users';
+const API_BASE = `${import.meta.env.VITE_API_URL}/api/users`;
 
 const AuthForm = ({ onAuthSuccess }) => {
   const [mode, setMode] = useState('login'); // 'login' | 'signup'

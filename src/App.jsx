@@ -5,7 +5,7 @@ import ThoughtForm from './components/ThoughtForm';
 import ThoughtList from './components/ThoughtList';
 import AuthForm from './components/AuthForm';
 
-const API_URL = 'http://localhost:8080/api/thoughts';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/thoughts`;
 
 export default function App() {
   const [tweets, setTweets] = useState([]);
